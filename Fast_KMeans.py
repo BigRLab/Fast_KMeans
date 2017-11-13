@@ -23,9 +23,9 @@ def init_assignments_and_bounds(data, centers):
 
 
 def compute_center_distances(centers):
-    distances = [[distance(centers[i], centers[j]) for j in range(len(centers))] for i in range(len(centers))]
-    min_distances = [min(row) for row in distances]
-    return distances, min_distances
+    center_distances = [[distance(centers[i], centers[j]) for j in range(len(centers))] for i in range(len(centers))]
+    min_distances = [min(row) for row in center_distances]
+    return center_distances, min_distances
 
 
 def fast_k_means(data, k):
@@ -34,18 +34,17 @@ def fast_k_means(data, k):
     old_centers = []
     out_of_date = [True for i in range(len(data))]
     while not compare_centers(centers, old_centers):
-        distances, min_distances = compute_center_distances(centers)
+        center_distances, min_distances = compute_center_distances(centers)
         for i in range(len(data)):
             if ubs[i] > min_distances[assignments[i]]:
                 for j in range(k):
-                    if j != assignments[i] and ubs[i] > lbs[i][j] and ubs[i] > 0.5 * distance(centers[assignments[i]],
-                                                                                              centers[j]):
+                    if j != assignments[i] and ubs[i] > lbs[i][j] and ubs[i] > 0.5 * center_distances[assignments[i]][j]:
                         d = ubs[i]
                         if out_of_date[i]:
                             d = distance(data[i], centers[assignments[i]])
                             out_of_date[i] = False
 
-                        if d > lbs[i][j] or d > 0.5 * distance(centers[assignments[i]], centers[j]):
+                        if d > lbs[i][j] or d > 0.5 * center_distances[assignments[i]][j]:
                             if distance(data[i], centers[j]) < d:
                                 assignments[i] = j
 
@@ -72,4 +71,4 @@ def test_time(algorithm, data, k):
 # data = np.random.randint(-32, 32, size=(10000, 10))
 data = np.random.rand(10000, 10)
 test_time(fast_k_means, data, 10)
-test_time(k_means, data, 10)
+# test_time(k_means, data, 10)
