@@ -1,5 +1,5 @@
 # Fast_KMeans
-Some algorithm to accelerate *k*-Means clustering.
+Some algorithms to accelerate *k*-Means clustering.
 
 ## Vanilla *k*-Means
 In `KMeans.py`
