@@ -24,7 +24,7 @@ def init_assignments_and_bounds(data, centers):
 
 def compute_center_distances(centers):
     center_distances = [[distance(centers[i], centers[j]) for j in range(len(centers))] for i in range(len(centers))]
-    min_distances = [min(row) for row in center_distances]
+    min_distances = [0.5 * min(row) for row in center_distances]
     return center_distances, min_distances
 
 
